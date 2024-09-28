@@ -1,0 +1,23 @@
+def check_smart_contract(contract):
+    vulnerabilities = []
+
+    if 'call' in contract:
+        vulnerabilities.append("Possible reentrancy issue detected (use 'call' method).")
+    if 'require' not in contract:
+        vulnerabilities.append("No access control detected.")
+    if 'SafeMath' not in contract:
+        vulnerabilities.append("Arithmetic issues may exist (consider using SafeMath).")
+
+    return vulnerabilities
+
+if __name__ == "__main__":
+    sample_contract = """
+    function withdraw(uint256 amount) public {
+        call(...);
+    }
+    """
+    
+    print("Analyzing smart contract...")
+    issues = check_smart_contract(sample_contract)
+    for issue in issues:
+        print(f"Warning: {issue}")
